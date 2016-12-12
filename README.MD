@@ -28,7 +28,7 @@ This classify a single image, with a learned SVM classifier, using 'fc7' feature
 export GLOG_minloglevel=2
 ./caffeinated_application <path_to_image_file>
 ```
-
+For instance try `./caffeinated_application vgg_face_caffe/ak.png`
 ## Train SVM (Python 2, Caffe with GPU) **OPTIONNAL**
 
 ### Features computation
