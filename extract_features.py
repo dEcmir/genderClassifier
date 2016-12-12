@@ -17,7 +17,7 @@ def main(caffe_path, image_dir, ann_file, max_number=None):
     if max_number is not None:
         imagespaths = imagespaths[:max_number]
 
-
+    # create caffe model
     model = direc+'VGG_FACE_deploy.prototxt'
     weights = direc+'VGG_FACE.caffemodel'
     caffe.set_mode_gpu();
@@ -33,12 +33,13 @@ def main(caffe_path, image_dir, ann_file, max_number=None):
 
     net.blobs['data'].reshape(100,3,224,224)
 
-    #load the image in the data layer
+    # create hdf5 database
     f = h5py.File('celebfeatures.hdf5','w')
 
     dset = f.create_dataset("features",
                             (len(imagespaths),4096),
                             dtype='float32')
+    # batch based feature computation, this can take some time
     batch = np.empty((100,3,224,224))
     for i in range(len(imagespaths)):
         im = caffe.io.load_image(image_dir+imagespaths[i])

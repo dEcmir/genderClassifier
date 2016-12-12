@@ -52,6 +52,7 @@ int main(int argc, char** argv) {
     // Load image using util function
     load_image(image_path, feature_extraction_net->input_blobs()[0]);
 
+    // actual feature computation
     feature_extraction_net->Forward();
 
     const boost::shared_ptr<Blob<float> > feature_blob =
@@ -61,6 +62,7 @@ int main(int argc, char** argv) {
 
     feature_blob_data = feature_blob->cpu_data();
 
+    // feature map is classified thanks to the SVM clasifier
     int sex = svm_classifier("svm.txt", feature_blob_data , feature_blob->channels());
 
     // output print

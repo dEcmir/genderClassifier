@@ -16,10 +16,13 @@ using namespace cv;
 
 void load_image(const string & imagePath, caffe::Blob<float>* input_layer )
 {
+    // load and do the same preprocessing as extract_feature.py
+    // thanks to openCV
     Mat img = imread(imagePath, -1);
     if(img.empty())
        std::cerr << "Unable to decode image " << imagePath << std::endl;
 
+    // wrap the data layer of caffe as Mat objects
     std::vector<Mat> input_channels;
     int width = input_layer->width();
     int height = input_layer->height();
@@ -37,17 +40,17 @@ void load_image(const string & imagePath, caffe::Blob<float>* input_layer )
 		cvtColor(img, sample, COLOR_BGRA2BGR);
 	else
 		sample = img;
-
+    // resizing
 	Mat sample_resized;
 	if (sample.size() != Size(width, height))
 		resize(sample, sample_resized, Size(width, height));
 	else
 		sample_resized = sample;
-
+    // float conversion
 	Mat sample_float;
 	sample_resized.convertTo(sample_float, CV_32FC3);
 	Mat sample_normalized;
-    // Mean Substraction
+    // Mean Substraction, per channel
     // This operation will write the separate BGR planes directly to the
     // input layer of the network because it is wrapped by the Mat
     // objects in input_channels.

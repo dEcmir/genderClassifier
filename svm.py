@@ -16,11 +16,12 @@ clf.fit(X, y)
 print "Classification done"
 
 
-# This is the obtained classifier, here for illustrations purposes
+# This is the obtained classifier
 c0 = clf.intercept_.copy()
 alpha = clf.dual_coef_.copy()
 vectors = clf.support_vectors_.copy()
 gamma = 1./X.shape[1]
+# this is only for test
 dec = lambda x : np.sign(c0 + (alpha* np.tanh(gamma * vectors.dot(x))).sum())
 # serialisation
 with open("svm.txt", "w") as out:
