@@ -38,12 +38,12 @@ with open("svm.txt", "w") as out:
         out.write("\r\t")
     out.flush()
     out.close()
-import pdb; pdb.set_trace()
 
 # test on other data chunks (separated for speed ...)
-for i in range(10):
+for i in range(3):
     Xv = f['features'][10000* (i+1):10000* (i+2)]
     Yv = f['sex'][10000* (i+1):10000* (i+2)]
+    print "Classification rate :",
     print float(np.equal(clf.predict(Xv), Yv).sum()) / Yv.shape[0]
 
 f.close()
